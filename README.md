@@ -28,10 +28,10 @@ To setup the EKS Audit logs dashboard, follow the setups:
     wget https://raw.githubusercontent.com/ankitjain28may/eks-cloudwatch-dashboard/master/audit-logs-dashboard.json
     ```
 
-2. Find the source from the cloudwatch log group for eks and replace the `CLODUWATCH_SOURCE` with the log group. 
+2. Find the source from the cloudwatch log group for eks and replace the `CLOUDWATCH_SOURCE` with the log group.
 
     ```shell
-    sed -i "s/CLODUWATCH_SOURCE/<cloudwatch-log-group-for-eks>/g" audit-logs-dashboard.json
+    sed -i "s/CLOUDWATCH_SOURCE/<cloudwatch-log-group-for-eks>/g" audit-logs-dashboard.json
     ```
 
 3. Create a new dashboard in cloudwatch and give it appropriate name.
