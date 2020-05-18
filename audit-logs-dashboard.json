@@ -1,0 +1,158 @@
+{
+    "widgets": [
+        {
+            "type": "log",
+            "x": 12,
+            "y": 0,
+            "width": 12,
+            "height": 6,
+            "properties": {
+                "query": "SOURCE 'CLODUWATCH_SOURCE' | fields responseStatus.code as status\n| filter  status not in [200] | filter ispresent(status)\n| count(*) as total by status | sort total desc | limit 10",
+                "region": "ap-south-1",
+                "stacked": false,
+                "title": "Non-200 total Count",
+                "view": "table"
+            }
+        },
+        {
+            "type": "log",
+            "x": 12,
+            "y": 6,
+            "width": 12,
+            "height": 6,
+            "properties": {
+                "query": "SOURCE 'CLODUWATCH_SOURCE' | fields responseStatus.code as statuscode, user.username as username\n| filter  responseStatus.code not in [200] | filter ispresent(user.username) \n| stats count(*) as total by username | sort total desc  | limit 10",
+                "region": "ap-south-1",
+                "stacked": false,
+                "view": "table",
+                "title": "Top failures including everything"
+            }
+        },
+        {
+            "type": "log",
+            "x": 12,
+            "y": 12,
+            "width": 12,
+            "height": 6,
+            "properties": {
+                "query": "SOURCE 'CLODUWATCH_SOURCE' | fields responseStatus.code as statuscode, requestURI\n| filter  statuscode not in [200] | filter ispresent(requestURI)\n| stats count(*) as total by requestURI | sort total desc  | limit 10",
+                "region": "ap-south-1",
+                "stacked": false,
+                "title": "URLs with NON-200",
+                "view": "table"
+            }
+        },
+        {
+            "type": "log",
+            "x": 6,
+            "y": 6,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "query": "SOURCE 'CLODUWATCH_SOURCE' | fields responseStatus.code as statuscode, user.username as username\n| filter  responseStatus.code in [200] | filter ispresent(username)| filter username =~ /^((?!system:)[\\s\\S])*$/\n| stats count(*) as total by username | sort total desc  | limit 10",
+                "region": "ap-south-1",
+                "stacked": false,
+                "title": "Most active users",
+                "view": "table"
+            }
+        },
+        {
+            "type": "log",
+            "x": 12,
+            "y": 18,
+            "width": 12,
+            "height": 6,
+            "properties": {
+                "query": "SOURCE 'CLODUWATCH_SOURCE' | fields responseStatus.code as statuscode, responseStatus.reason as reason, objectRef.namespace as namespace\n| filter  statuscode not in [200] | filter ispresent(reason)\n| stats count(*) as total by reason, namespace | sort total desc  | limit 15",
+                "region": "ap-south-1",
+                "stacked": false,
+                "title": "Top Failure by Reason and Namespace",
+                "view": "table"
+            }
+        },
+        {
+            "type": "log",
+            "x": 0,
+            "y": 12,
+            "width": 12,
+            "height": 6,
+            "properties": {
+                "query": "SOURCE 'CLODUWATCH_SOURCE' | fields responseStatus.code as statuscode, requestURI\n| filter  statuscode not in [200] | filter ispresent(requestURI)\n| stats count(*) as total by requestURI, statuscode | sort total desc  | limit 10",
+                "region": "ap-south-1",
+                "stacked": false,
+                "title": "URLs with NON-200 with statuscode",
+                "view": "table"
+            }
+        },
+        {
+            "type": "log",
+            "x": 0,
+            "y": 24,
+            "width": 12,
+            "height": 6,
+            "properties": {
+                "query": "SOURCE 'CLODUWATCH_SOURCE' | fields responseStatus.code as statuscode, sourceIPs.0 as IPs, user.username as username\n| filter  statuscode not in [200] | filter ispresent(IPs) | filter username =~ /^((?!system:)[\\s\\S])*$/\n| stats count(*) as total by IPs, username| sort total desc  | limit 10",
+                "region": "ap-south-1",
+                "stacked": false,
+                "title": "Top Failure from IPs with username",
+                "view": "table"
+            }
+        },
+        {
+            "type": "log",
+            "x": 0,
+            "y": 6,
+            "width": 6,
+            "height": 6,
+            "properties": {
+                "query": "SOURCE 'CLODUWATCH_SOURCE' | fields responseStatus.code as statuscode, user.username as username\n| filter  responseStatus.code not in [200] | filter ispresent(username)| filter username =~ /^((?!system:)[\\s\\S])*$/\n| stats count(*) as total by username | sort total desc  | limit 10",
+                "region": "ap-south-1",
+                "stacked": false,
+                "title": "Top users by failure",
+                "view": "table"
+            }
+        },
+        {
+            "type": "log",
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 6,
+            "properties": {
+                "query": "SOURCE 'CLODUWATCH_SOURCE' | fields responseStatus.code as status\n| filter  status in [200] | filter ispresent(status)\n| stats count(*) as success by bin(30s)",
+                "region": "ap-south-1",
+                "stacked": false,
+                "title": "200 total Count",
+                "view": "timeSeries"
+            }
+        },
+        {
+            "type": "log",
+            "x": 0,
+            "y": 18,
+            "width": 12,
+            "height": 6,
+            "properties": {
+                "query": "SOURCE 'CLODUWATCH_SOURCE' | fields responseStatus.code as statuscode, responseStatus.reason as reason\n| filter  statuscode not in [200] | filter ispresent(reason)\n| stats count(*) as total by reason | sort total desc  | limit 10",
+                "region": "ap-south-1",
+                "stacked": false,
+                "title": "Top Failure reasons",
+                "view": "table"
+            }
+        },
+        {
+            "type": "log",
+            "x": 12,
+            "y": 24,
+            "width": 12,
+            "height": 6,
+            "properties": {
+                "query": "SOURCE 'CLODUWATCH_SOURCE' | fields responseStatus.code as statuscode, user.username as username\n| stats count(*) as total by username| sort total desc  | limit 50",
+                "region": "ap-south-1",
+                "stacked": false,
+                "title": "Total requests from user",
+                "view": "table"
+            }
+        }
+    ]
+}
